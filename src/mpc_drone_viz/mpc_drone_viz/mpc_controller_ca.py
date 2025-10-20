@@ -46,8 +46,8 @@ class MPCDroneController(Node):
             # {'center': np.array([2.5, 2.5, 1.5]), 'radius': 0.4},
             {'center': np.array([1.3, 1.3, 1.0]), 'radius': 0.8},
             {'center': np.array([2.9, 2.5, 1.5]), 'radius': 0.6},
-            {'center': np.array([4.0, 3.0, 2.0]), 'radius': 0.6},
             {'center': np.array([3.0, 3.5, 2.0]), 'radius': 0.9},
+            {'center': np.array([4.0, 3.0, 2.0]), 'radius': 0.6},
             {'center': np.array([4.3, 3.7, 2.0]), 'radius': 0.67},
             {'center': np.array([4.0, 3.0, 2.0]), 'radius': 1.0},
         ]
@@ -176,7 +176,7 @@ class MPCDroneController(Node):
             # Publish obstacles
             self.publish_obstacles()
             
-            self.get_logger().debug(f'Drone at: {self.drone_state[0:3]}, Target: {self.target}')
+            self.get_logger().info(f'Drone at: {self.drone_state[0:3]}, Target: {self.target}')
             
         except Exception as e:
             self.get_logger().warn(f'MPC solve failed: {str(e)[:100]}')
@@ -192,7 +192,7 @@ class MPCDroneController(Node):
         line_marker.id = 0
         line_marker.type = Marker.LINE_STRIP
         line_marker.action = Marker.ADD
-        line_marker.scale.x = 0.05
+        line_marker.scale.x = 0.02
         line_marker.color = ColorRGBA(r=0.0, g=1.0, b=0.0, a=1.0)
         
         # Add all predicted positions to the line
@@ -216,9 +216,9 @@ class MPCDroneController(Node):
             sphere_marker.pose.position.x = float(X_opt[0, k])
             sphere_marker.pose.position.y = float(X_opt[1, k])
             sphere_marker.pose.position.z = float(X_opt[2, k])
-            sphere_marker.scale.x = 0.08
-            sphere_marker.scale.y = 0.08
-            sphere_marker.scale.z = 0.08
+            sphere_marker.scale.z = 0.05
+            sphere_marker.scale.x = 0.05
+            sphere_marker.scale.y = 0.05
             sphere_marker.color = ColorRGBA(r=0.0, g=1.0, b=0.0, a=0.8)
             markers.markers.append(sphere_marker)
         
@@ -259,7 +259,7 @@ class MPCDroneController(Node):
             marker.scale.y = obs['radius'] * 2
             marker.scale.z = obs['radius'] * 2
             # Red semi-transparent color
-            marker.color = ColorRGBA(r=1.0, g=0.0, b=0.0, a=0.3)
+            marker.color = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)
             markers.markers.append(marker)
         
         self.obstacle_pub.publish(markers)

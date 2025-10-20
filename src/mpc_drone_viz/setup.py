@@ -17,7 +17,7 @@ setup(
          glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
         # Include all RViz files
         (os.path.join('share', package_name, 'rviz'),
-         glob(os.path.join('rviz', '*.rviz'))),
+         glob(os.path.join('rviz', '*.viz'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -30,6 +30,8 @@ setup(
         'console_scripts': [
             'mpc_controller=mpc_drone_viz.mpc_controller:main',
             'mpc_controller_ca=mpc_drone_viz.mpc_controller_ca:main',
+            'dmpc_v1=mpc_drone_viz.dmpc_v1:main',
+            'dmpc_v2=mpc_drone_viz.dmpc_v2:main',
         ],
     },
 )
